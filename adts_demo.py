@@ -1,6 +1,8 @@
 # Copyright (C) 2021 Analog Devices, Inc.
 #
 # SPDX short identifier: ADIBSD
+
+#  This demo application plots adis16480's accel channel values in realtime
 import sys
 
 import adi
@@ -11,12 +13,13 @@ def calculate_rms(values):
     return np.sqrt(np.mean(np.square(values)))
 
 # Set up ADIS16480
-dev = adi.adis16480(uri='ip:172.27.13.245')
+# dev = adi.adis16480(uri='ip:172.27.13.245')
+dev = adi.adis16480(uri='ip:192.168.115.15')
 
 dev.rx_output_type = "raw"
 dev.rx_enabled_channels = [3, 4, 5]
 dev.sample_rate = 20000
-dev.rx_buffer_size = 10
+dev.rx_buffer_size = 100
 
 print("Product id: " + str(dev.product_id))
 print("Serial number: " + dev.serial_number)
@@ -31,7 +34,7 @@ print("Z acceleration: " + str(dev.accel_z_conv) + " m/s^2")
 
 print("\nSampling frequency: " + str(dev.sample_rate))
 
-9
+
 for _ in range(1000):
     data = dev.rx()
     # print(calculate_rms(data[0]))
