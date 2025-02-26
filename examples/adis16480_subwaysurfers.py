@@ -6,7 +6,7 @@ import keyboard #pip install keyboard
 from collections import Counter
 import time
 
-dev = adi.adis16480(uri='ip:172.27.6.191')
+dev = adi.adis16480(uri='ip:172.20.10.10')
 
 dev.rx_output_type = "raw"
 dev.rx_enabled_channels = [3, 4, 5]
