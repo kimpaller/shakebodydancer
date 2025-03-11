@@ -3,6 +3,7 @@
 
 import adi #pyadi-iio
 import keyboard #pip install keyboard
+import sys
 
 dev = adi.adis16480(uri='ip:172.20.10.10') # dependent on network
 
@@ -70,11 +71,16 @@ def move_y(action):
         keyboard.release('down')
         keyboard.release('up')
 
-while(True):
-    for action in actions:
-        ll,ul = directions[action]
-        if ll <= dev.accel_x_conv <= ul:
-            move_x(action)
-        if ll <= dev.accel_y_conv <= ul:
-            move_y(action)
+try:
+    while(True):
+        for action in actions:
+            ll,ul = directions[action]
+            if ll <= dev.accel_x_conv <= ul:
+                move_x(action)
+            if ll <= dev.accel_y_conv <= ul:
+                move_y(action)
+except KeyboardInterrupt:
+    print("KeyboardInterrupt has been caught. Deleting imu context. Exiting the program.")
+    del dev
+    sys.exit(0)
 
